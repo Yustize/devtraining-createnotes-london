@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function(spUtil, $scope) {
+  /* widget controller */
+  var c = this;
+	
+	spUtil.recordWatch($scope, "incident", "active=true");
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>true</has_preview>
+        <id>incident</id>
+        <internal>false</internal>
+        <link/>
+        <name>Incident</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	if(gs.nil(input))
+		gs.addInfoMessage("nil");
+	
+	if(!gs.nil(input))
+		gs.addInfoMessage("not nil");
+	
+		data.incident= [];
+		var incGR = new GlideRecord('incident');
+		//incGR.addQuery('caller_id', gs.getUser().getID());
+		incGR.addQuery('active', true);
+		incGR.query();
+		while(incGR.next()){
+			var incObj = {};
+			$sp.getRecordDisplayValues(incObj, incGR, 'number,short_description,state,assignment_group,priority');
+			data.incident.push(incObj); 
+		}
+	//}
+	
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-10-26 07:42:25</sys_created_on>
+        <sys_id>3ddc58c3db112300ceec9006db9619b7</sys_id>
+        <sys_mod_count>29</sys_mod_count>
+        <sys_name>Incident</sys_name>
+        <sys_package display_value="CreateNotes" source="x_snc_createnotes">df5fd9a5090232007f44e1046c8ff69f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="CreateNotes">df5fd9a5090232007f44e1046c8ff69f</sys_scope>
+        <sys_update_name>sp_widget_3ddc58c3db112300ceec9006db9619b7</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-10-26 13:11:21</sys_updated_on>
+        <template><![CDATA[<div class="list-group">
+<li class="list-group-item" ng-repeat="incident in data.incident">
+  <a ng-href="#" class="pull-left">{{incident.number}}</a>&emsp;<a>{{incident.short_description}}</a> &emsp;<a>{{incident.state}}</a> &emsp;<a>{{incident.assignment_group}}</a> &emsp;<a class="pull-right">{{incident.priority}}</a> 
+  
+  </li>
+</div>]]></template>
+    </sp_widget>
+</record_update>
